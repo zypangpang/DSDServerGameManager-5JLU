@@ -85,7 +85,7 @@ public class Client extends JFrame {
 		// connect client to server
 		try {
 //			InetAddress address = InetAddress.getLocalHost();
-			InetAddress address = InetAddress.getByName("128.223.4.35");
+			InetAddress address = InetAddress.getByName("127.0.0.1");
 		
 			_socket = new Socket(address, PORT);
 			_connectionLabel.setText("Connected to " + address + ":" + PORT);

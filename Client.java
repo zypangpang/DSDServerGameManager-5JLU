@@ -31,6 +31,7 @@ public class Client extends JFrame {
 	private JLabel _helpLabel;						// display help chat command
 	private JLabel _connectionLabel;				// display connection status
 	private static String userName;;				// store user name
+	private static String ip = "49.140.122.18";
 
 
 	////CONSTRUCTOR ////
@@ -84,8 +85,8 @@ public class Client extends JFrame {
 
 		// connect client to server
 		try {
-//			InetAddress address = InetAddress.getLocalHost();
-			InetAddress address = InetAddress.getByName("128.223.4.35");
+			// InetAddress address = InetAddress.getLocalHost();
+			InetAddress address = InetAddress.getByName(ip);
 		
 			_socket = new Socket(address, PORT);
 			_connectionLabel.setText("Connected to " + address + ":" + PORT);
@@ -106,6 +107,7 @@ public class Client extends JFrame {
 			// TODO: EOFException thrown
 			shutdownClient();
 			ex.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Game is Aborted!");
 		}
 	}	// end Client()
 

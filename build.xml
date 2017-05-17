@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<project name="DSDServerGameManager" default="compile" basedir=".">
+	<!--clean-->
+	<target name="clean">
+		<delete dir="${basedir}/target"/>
+	</target>
+
+	<path id="jar">
+		<fileset dir="/opt/jdk1.8.0_131/lib">
+			<include name="json.jar"/>
+		</fileset>
+	</path>
+
+	<!--compile-->
+	<target name="compile" depends="clean">
+		<mkdir dir="${basedir}/target/classes"/>
+		<mkdir dir="${basedir}/target/classes/Scratch"/>
+		<javac srcdir="${basedir}/Scratch" destdir="${basedir}/target/classes/Scratch"  includeAntRuntime="false">
+			<classpath refid="jar"/>
+		</javac>
+		<javac srcdir="${basedir}" destdir="${basedir}/target/classes" excludes="Spark/**,tmp/**" includeAntRuntime="false">
+			<classpath refid="jar"/>
+		</javac>
+	</target>
+
+	<!--run-->
+	<target name="server" depends="compile">
+		<echo message="Server is running..."/>
+		<echo message=""/>
+		<java classname="Server">
+			<classpath>
+				<pathelement path="${basedir}/target/classes"/>
+			</classpath>
+		</java>
+		<echo message=""/>
+		<!--echo message="Java Version: ${ant.java.version})"-->
+	</target>
+
+	<target name="client" depends="compile">
+		<echo message="Client is running..."/>
+		<echo message=""/>
+		<java classname="Client">
+			<classpath>
+				<pathelement path="${basedir}/target/classes"/>
+			</classpath>
+		</java>
+		<echo message=""/>
+		<!--echo message="Java Version: ${ant.java.version})"-->
+	</target>
+</project>

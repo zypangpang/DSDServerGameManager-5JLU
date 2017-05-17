@@ -36,6 +36,14 @@ public class Server {
 			}
 		}	// end ObjectSocket(Socket socket)
 
+		public void close() {
+			try {
+				_socket.close();
+			} catch(IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+
 		public ObjectInputStream getInputStream() {
 			return _inputStream;
 		}	// end getInputStream()
@@ -60,8 +68,10 @@ public class Server {
 				boolean running = true;
 				while (running) {
 					Socket socket = serverSocket.accept();
-					_queue.offer(new ObjectSocket(socket));		// .offer() inserts ObjectSocket at the tail of _queue
-					System.out.println("Client #" + ++clientNumber + " connected to " + socket.getLocalSocketAddress());
+					// .offer() inserts ObjectSocket at the tail of _queue
+					_queue.offer(new ObjectSocket(socket));
+					System.out.println("Client #" + ++clientNumber 
+							+ " connected to " + socket.getLocalSocketAddress());
 				}
 			} catch (IOException ex) {
 				ex.printStackTrace();
@@ -86,7 +96,12 @@ public class Server {
 							broadcastMessage(message);
 						}
 					} catch (IOException ex) {
+						for(ObjectSocket object : _queue) {
+							object.close();
+						}
+						System.out.println("In IORunnable");
 						System.out.println("[ERROR]: Unable to read from " + objectSocket);
+						return;
 					}
 				}
 			}
@@ -108,7 +123,12 @@ public class Server {
 				System.out.println("Sent to " + objectSocket.getSocketAddr());
 				
 			} catch (IOException ex) {
+				System.out.println("In broadcastMessage");
 				System.out.println("[ERROR]: " + objectSocket + "did not recieve message: " + message);
+				for(ObjectSocket object : _queue) {
+					object.close();
+				}
+				return;
 			}
 		}
 	}	// end broadcastMessage(String message)

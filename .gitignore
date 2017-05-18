@@ -1,2 +1,10 @@
 *.[oa]
 *~
+server.sh
+client.sh
+target/
+*.swp
+Scratch/*.swp
+.ant-targets-build.xml
+tmp/
+.gitignore

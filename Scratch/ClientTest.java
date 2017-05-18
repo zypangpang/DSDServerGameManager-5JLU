@@ -1,4 +1,3 @@
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -12,6 +11,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A simple Swing-based client for the capitalization server.
@@ -51,7 +54,8 @@ public class ClientTest {
 						 */
 						public void actionPerformed(ActionEvent e) {
 								out.println(dataField.getText());
-									 String response;
+								dataField.setText("");
+								String response;
 								try {
 										response = in.readLine();
 										if (response == null || response.equals("")) {
@@ -83,7 +87,8 @@ public class ClientTest {
 						JOptionPane.QUESTION_MESSAGE);
 
 				// Make connection and initialize streams
-				int port = 12345;
+				// int port = 12345;
+				int port = 9898;
 				Socket socket = new Socket(serverAddress, port);
 				in = new BufferedReader(
 								new InputStreamReader(socket.getInputStream()));
